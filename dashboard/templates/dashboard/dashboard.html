@@ -1,0 +1,76 @@
+{% extends "dashboard/base.html" %}
+
+{% block content %}
+
+<div class="row g-4 mb-4">
+
+    <div class="col-md-3">
+        <div class="card-box text-center">
+            <h6>Total Projects</h6>
+            <h2>{{ total_projects }}</h2>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card-box text-center">
+            <h6>Total Tasks</h6>
+            <h2>{{ total_tasks }}</h2>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card-box text-center">
+            <h6>Completed</h6>
+            <h2 class="text-success">{{ completed_tasks }}</h2>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card-box text-center">
+            <h6>Pending</h6>
+            <h2 class="text-warning">{{ pending_tasks }}</h2>
+        </div>
+    </div>
+    <div class="col-md-3">
+    <div class="card-box text-center">
+        <h6>In Progress</h6>
+        <h2 class="text-primary">{{ inprogress_tasks }}</h2>
+    </div>
+</div>
+
+</div>
+
+<div class="card-box">
+    <h5 class="mb-3">My Recent Tasks</h5>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Task</th>
+                <th>Project</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for task in tasks %}
+            <tr>
+                <td>{{ task.title }}</td>
+                <td>{{ task.project.name }}</td>
+                <td>
+                    {% if task.status == "Completed" %}
+    <span class="badge bg-success">Completed</span>
+{% elif task.status == "In Progress" %}
+    <span class="badge bg-primary">In Progress</span>
+{% else %}
+    <span class="badge bg-warning text-dark">Pending</span>
+{% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+{% endblock %}

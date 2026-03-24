@@ -1,0 +1,77 @@
+{% extends "dashboard/base.html" %}
+
+{% block content %}
+
+<h2>Tasks</h2>
+
+<div class="filter-bar mb-4">
+    <form method="GET" class="d-flex gap-3 align-items-center">
+
+        <select name="status" class="form-select sort-select">
+            <option value="">All Status</option>
+            <option value="Pending">Pending</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Completed">Completed</option>
+        </select>
+
+        <select name="priority" class="form-select sort-select">
+            <option value="">All Priority</option>
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+        </select>
+
+        <button type="submit" class="btn btn-primary sort-btn">
+            <i class="bi bi-funnel"></i> Filter
+        </button>
+
+    </form>
+</div>
+
+<table class="task-table">
+    <tr>
+        <th>Title</th>
+        <th>Status</th>
+        <th>Priority</th>
+        <th>Change Status</th>
+    </tr>
+
+    {% for task in tasks %}
+    <tr>
+        <td>{{ task.title }}</td>
+
+        <td>
+            {% if task.status == "Completed" %}
+                <span class="status completed">Completed</span>
+            {% elif task.status == "In Progress" %}
+                <span class="status in-progress">In Progress</span>
+            {% else %}
+                <span class="status pending">Pending</span>
+            {% endif %}
+        </td>
+
+        <td>
+            {% if task.priority == "High" %}
+                <span class="priority high">High</span>
+            {% elif task.priority == "Medium" %}
+                <span class="priority medium">Medium</span>
+            {% else %}
+                <span class="priority low">Low</span>
+            {% endif %}
+        </td>
+
+        <td>
+            <form method="POST" action="{% url 'update_status' task.id %}">
+                {% csrf_token %}
+                <select name="status" onchange="this.form.submit()">
+                    <option value="Pending" {% if task.status == "Pending" %}selected{% endif %}>Pending</option>
+                    <option value="In Progress" {% if task.status == "In Progress" %}selected{% endif %}>In Progress</option>
+                    <option value="Completed" {% if task.status == "Completed" %}selected{% endif %}>Completed</option>
+                </select>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

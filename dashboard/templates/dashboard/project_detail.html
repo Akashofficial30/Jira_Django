@@ -1,0 +1,67 @@
+{% extends "dashboard/base.html" %}
+
+{% block content %}
+
+<h2>{{ project.name }}</h2>
+<p>{{ project.description }}</p>
+
+<hr>
+
+<div class="row g-4 mb-4">
+
+    <div class="col-md-4">
+        <div class="card-box text-center">
+            <h6>Completed</h6>
+            <h2 class="text-success">{{ completed }}</h2>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card-box text-center">
+            <h6>Pending</h6>
+            <h2 class="text-warning">{{ pending }}</h2>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card-box text-center">
+            <h6>In Progress</h6>
+            <h2 class="text-primary">{{ inprogress }}</h2>
+        </div>
+    </div>
+
+</div>
+
+<div class="card-box">
+    <h5 class="mb-3">Tasks</h5>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Priority</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+            <tr>
+                <td>{{ task.title }}</td>
+                <td>
+                    {% if task.status == "Completed" %}
+                        <span class="badge bg-success">Completed</span>
+                    {% elif task.status == "In Progress" %}
+                        <span class="badge bg-primary">In Progress</span>
+                    {% else %}
+                        <span class="badge bg-warning text-dark">Pending</span>
+                    {% endif %}
+                </td>
+                <td>{{ task.priority }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+{% endblock %}
